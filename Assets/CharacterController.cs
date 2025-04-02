@@ -20,28 +20,6 @@ public class CharacterController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
 
-    private void Climb()
-    {
-        isClimbing = false;
-        animator.SetBool("isClimbing", false);
-    }
-
-    private IEnumerator ClimbLerp(Vector3 targetPosition, float duration)
-    {
-        float time = 0;
-        Vector3 startPosition = transform.position;
-
-        while (time < duration)
-        {
-            float t = Mathf.SmoothStep(0, 1, time / duration);
-            transform.position = Vector3.Lerp(startPosition, targetPosition, t);
-            time += Time.deltaTime;
-            yield return null;
-        }
-
-        transform.position = targetPosition;
-    }
-
     private void Start()
     {
         GetComponents();
@@ -73,18 +51,7 @@ public class CharacterController : MonoBehaviour
             return;
         }
 
-        if (!notClimbingSensor.State() && climbingSensor.State())
-        {
-            notClimbingSensor.Disable(0.2f);
-            climbingSensor.Disable(0.2f);
-
-            isClimbing = true;
-
-            animator.SetTrigger("Climb");
-            animator.SetBool("isClimbing", true);
-
-            StartCoroutine(ResetClimbFlag());
-        }
+        TryClimb();
 
         if (Input.GetKeyDown(KeyCode.Space))
             TryJump();
@@ -97,6 +64,23 @@ public class CharacterController : MonoBehaviour
         isGrounded = groundSensor.State();
 
         animator.SetBool("isGrounded", isGrounded);
+    }
+
+    private void TryClimb()
+    {
+        if (notClimbingSensor.State() || !climbingSensor.State())
+            return;
+
+        notClimbingSensor.Disable(0.2f);
+        climbingSensor.Disable(0.2f);
+
+        isClimbing = true;
+
+        animator.SetTrigger("Climb");
+        animator.SetBool("isClimbing", true);
+
+        StartCoroutine(ResetClimbFlag());
+
     }
 
     private IEnumerator ResetClimbFlag()
@@ -112,6 +96,28 @@ public class CharacterController : MonoBehaviour
         yield return new WaitForSeconds(0.6f);
 
         Climb();
+    }
+
+    private IEnumerator ClimbLerp(Vector3 targetPosition, float duration)
+    {
+        float time = 0;
+        Vector3 startPosition = transform.position;
+
+        while (time < duration)
+        {
+            float t = Mathf.SmoothStep(0, 1, time / duration);
+            transform.position = Vector3.Lerp(startPosition, targetPosition, t);
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = targetPosition;
+    }
+
+    private void Climb()
+    {
+        isClimbing = false;
+        animator.SetBool("isClimbing", false);
     }
 
     private void TryWalk()
