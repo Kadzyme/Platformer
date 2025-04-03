@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private GroundSensor groundSensor;
-    [SerializeField] private GroundSensor slideSensor;
+    [SerializeField] private GroundSensor topSlideSensor;
+    [SerializeField] private GroundSensor bottomSlideSensor;
 
     [SerializeField] private GroundSensor climbingSensor;
     [SerializeField] private GroundSensor notClimbingSensor;
@@ -94,7 +95,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        isSliding = slideSensor.State();
+        isSliding = topSlideSensor.State() && bottomSlideSensor.State();
 
         if (isSliding)
         {
@@ -140,7 +141,7 @@ public class PlayerController : MonoBehaviour
     {
         float inputX = Input.GetAxis("Horizontal");
 
-        if (!isGrounded && inputX != 0 && slideSensor.State())
+        if (!isGrounded && inputX != 0 && topSlideSensor.State() && bottomSlideSensor.State())
         {
             return;
         }
@@ -175,7 +176,8 @@ public class PlayerController : MonoBehaviour
 
             rb.linearVelocity = new Vector2(jumpDirection * jumpForce, jumpForce);
 
-            slideSensor.Disable(0.2f);
+            topSlideSensor.Disable(0.2f);
+            bottomSlideSensor.Disable(0.2f);
             climbingSensor.Disable(0.2f);
 
             isSliding = false;
