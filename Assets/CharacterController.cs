@@ -13,9 +13,11 @@ public class CharacterController : MonoBehaviour
     [SerializeField] private float jumpForce;
     [SerializeField] private float moveSpeed;
     [SerializeField] private bool isNormalXPositive = true;
+
     private float normalX;
     private bool isGrounded;
     private bool isClimbing;
+    private bool isSliding;
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -43,6 +45,9 @@ public class CharacterController : MonoBehaviour
 
     private void Update()
     {
+        //if (rightSensor.State())
+        //    rb.linearVelocityX = 0;
+
         CheckIsGrounded();
 
         if (isClimbing)
@@ -52,6 +57,8 @@ public class CharacterController : MonoBehaviour
         }
 
         TryClimb();
+
+        TrySlide();
 
         if (Input.GetKeyDown(KeyCode.Space))
             TryJump();
@@ -76,11 +83,28 @@ public class CharacterController : MonoBehaviour
 
         isClimbing = true;
 
-        animator.SetTrigger("Climb");
         animator.SetBool("isClimbing", true);
 
         StartCoroutine(ResetClimbFlag());
+    }
 
+    private void TrySlide()
+    {
+        if (isClimbing || isGrounded)
+        {
+            isSliding = false;
+            animator.SetBool("isSliding", isSliding);
+            return;
+        }
+
+        isSliding = rightSensor.State();
+
+        if (isSliding)
+        {
+            rb.linearVelocityY = -0.1f;
+        }
+
+        animator.SetBool("isSliding", isSliding);
     }
 
     private IEnumerator ResetClimbFlag()
@@ -88,14 +112,15 @@ public class CharacterController : MonoBehaviour
         Vector3 currentClimbingSensorPos = notClimbingSensor.transform.position;
         RaycastHit2D newPos = Physics2D.Raycast(currentClimbingSensorPos, Vector2.down, 2f, Global.groundLayer);
 
-        float characterHeight = GetComponent<Collider2D>().bounds.extents.y;
-        Vector3 correctedPosition = newPos.point - new Vector2(0, characterHeight);
+        float characterHeight = GetComponent<Collider2D>().bounds.size.y / 2;
+        Vector3 correctedPosition = newPos.point + new Vector2(0, characterHeight);
 
         StartCoroutine(ClimbLerp(correctedPosition, 0.3f));
 
         yield return new WaitForSeconds(0.6f);
 
-        Climb();
+        isClimbing = false;
+        animator.SetBool("isClimbing", false);
     }
 
     private IEnumerator ClimbLerp(Vector3 targetPosition, float duration)
@@ -112,12 +137,6 @@ public class CharacterController : MonoBehaviour
         }
 
         transform.position = targetPosition;
-    }
-
-    private void Climb()
-    {
-        isClimbing = false;
-        animator.SetBool("isClimbing", false);
     }
 
     private void TryWalk()
@@ -150,9 +169,23 @@ public class CharacterController : MonoBehaviour
 
     private void TryJump()
     {
-        if (!isGrounded)
+        if (!isGrounded && !isSliding)
             return;
 
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        if (isSliding)
+        {
+            float jumpDirection = Mathf.Sign(-transform.localScale.x);
+
+            rb.linearVelocity = new Vector2(jumpDirection * jumpForce * 100f, jumpForce);
+
+            rightSensor.Disable(0.2f);
+            climbingSensor.Disable(0.2f);
+
+            isSliding = false;
+        }
+        else
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        }
     }
 }

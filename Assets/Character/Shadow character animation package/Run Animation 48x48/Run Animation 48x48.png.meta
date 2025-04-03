@@ -76,7 +76,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -168,10 +168,10 @@ TextureImporter:
       name: Run Animation 48x48_0
       rect:
         serializedVersion: 2
-        x: 9
-        y: 10
-        width: 23
-        height: 21
+        x: 0
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -190,10 +190,10 @@ TextureImporter:
       name: Run Animation 48x48_1
       rect:
         serializedVersion: 2
-        x: 20
-        y: 30
-        width: 10
-        height: 10
+        x: 48
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -212,10 +212,10 @@ TextureImporter:
       name: Run Animation 48x48_2
       rect:
         serializedVersion: 2
-        x: 58
-        y: 13
-        width: 26
-        height: 19
+        x: 96
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -234,10 +234,10 @@ TextureImporter:
       name: Run Animation 48x48_3
       rect:
         serializedVersion: 2
-        x: 60
-        y: 26
-        width: 10
-        height: 7
+        x: 144
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -256,10 +256,10 @@ TextureImporter:
       name: Run Animation 48x48_4
       rect:
         serializedVersion: 2
-        x: 69
-        y: 31
-        width: 10
-        height: 10
+        x: 192
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -278,10 +278,10 @@ TextureImporter:
       name: Run Animation 48x48_5
       rect:
         serializedVersion: 2
-        x: 117
-        y: 31
-        width: 10
-        height: 10
+        x: 240
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -300,10 +300,10 @@ TextureImporter:
       name: Run Animation 48x48_6
       rect:
         serializedVersion: 2
-        x: 159
-        y: 8
-        width: 17
-        height: 30
+        x: 288
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -322,10 +322,10 @@ TextureImporter:
       name: Run Animation 48x48_7
       rect:
         serializedVersion: 2
-        x: 206
-        y: 8
-        width: 19
-        height: 31
+        x: 336
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -340,143 +340,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Run Animation 48x48_8
-      rect:
-        serializedVersion: 2
-        x: 252
-        y: 13
-        width: 21
-        height: 27
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2e4fa3183bf5db6e0800000000000000
-      internalID: -1820193449815903006
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Run Animation 48x48_9
-      rect:
-        serializedVersion: 2
-        x: 299
-        y: 8
-        width: 23
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 97097ed89b6ca6220800000000000000
-      internalID: 2480013045072892025
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Run Animation 48x48_10
-      rect:
-        serializedVersion: 2
-        x: 310
-        y: 31
-        width: 10
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 560aad6116bacc000800000000000000
-      internalID: 57609328732577893
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Run Animation 48x48_11
-      rect:
-        serializedVersion: 2
-        x: 353
-        y: 8
-        width: 16
-        height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: df10237d512479160800000000000000
-      internalID: 7032162004734444029
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Run Animation 48x48_12
-      rect:
-        serializedVersion: 2
-        x: 26
-        y: 21
-        width: 8
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 72d62847fdb335ce0800000000000000
-      internalID: -1417723626773123801
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Run Animation 48x48_13
-      rect:
-        serializedVersion: 2
-        x: 106
-        y: 8
-        width: 25
-        height: 22
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 179a9108ef89f10b0800000000000000
-      internalID: -5755713579917923983
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 4d42f305127e9bb4a9a7ca229d678072
     internalID: 0
     vertices: []
     indices: 
@@ -485,7 +353,15 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Run Animation 48x48_0: -9074540910749184221
+      Run Animation 48x48_1: 6700716135859360649
+      Run Animation 48x48_2: 7466588973943782280
+      Run Animation 48x48_3: -4156494327902433985
+      Run Animation 48x48_4: -1673611317665983558
+      Run Animation 48x48_5: -9163266914759468633
+      Run Animation 48x48_6: 3685605424134257320
+      Run Animation 48x48_7: -1739021469961148092
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

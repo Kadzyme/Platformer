@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class FollowCam : MonoBehaviour
 {
-    [SerializeField] private float maxDistance;
+    [SerializeField] private float maxDistanceX;
+    [SerializeField] private float maxDistanceY;
     [SerializeField] private float additionalY;
     [SerializeField] private float additionalX;
     [SerializeField] private float changingY;
@@ -56,10 +57,11 @@ public class FollowCam : MonoBehaviour
         playerCurrentPos.x += currentAdditionalX;
         playerCurrentPos.y += currentAdditionalY;
 
-        if (Vector2.Distance(currentPos, playerCurrentPos) > maxDistance)
+        if (Mathf.Abs(currentPos.x - playerCurrentPos.x) > maxDistanceX 
+            || Mathf.Abs(currentPos.y - playerCurrentPos.y) > maxDistanceY)
         {
             Vector2 temp = 
-                Vector2.Lerp(transform.position, playerCurrentPos, Time.deltaTime * Vector2.Distance(currentPos, playerCurrentPos) * 0.2f);
+                Vector2.Lerp(transform.position, playerCurrentPos, Time.deltaTime * Vector2.Distance(currentPos, playerCurrentPos));
             transform.position = new Vector3(temp.x, temp.y, normalZ);
         }
     }
