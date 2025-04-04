@@ -11,6 +11,7 @@ public class GroundSensor : MonoBehaviour
     private void Start()
     {
         GetComponent<Collider2D>().isTrigger = true;
+        Disable(0.1f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
