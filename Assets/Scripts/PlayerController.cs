@@ -56,6 +56,8 @@ public class PlayerController : MonoBehaviour
 
         TryClimb();
 
+        TryPush();
+
         TrySlide();
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -86,9 +88,20 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(ResetClimbFlag());
     }
 
+    private void TryPush()
+    {
+        if (!isGrounded || !(topSlideSensor.State() && bottomSlideSensor.State()))
+        {
+            animator.SetBool("isPushing", false);
+            return;
+        }
+
+        animator.SetBool("isPushing", true);
+    }
+
     private void TrySlide()
     {
-        if (isClimbing || isGrounded)
+        if (isGrounded)
         {
             isSliding = false;
             animator.SetBool("isSliding", isSliding);
