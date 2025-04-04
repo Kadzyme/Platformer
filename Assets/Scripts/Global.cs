@@ -13,6 +13,9 @@ public class Global : MonoBehaviour
     public static int groundLayer;
     [SerializeField] private int groundLayerNum;
 
+    public static int unitsLayer;
+    [SerializeField] private int unitsLayerNum;
+
     public static Transform currentPlayer;
 
     private static Transform playerPrefab;
@@ -20,7 +23,10 @@ public class Global : MonoBehaviour
 
     void Awake()
     {
+        Cursor.visible = false;
+
         groundLayer = 1 << groundLayerNum;
+        unitsLayer = 1 << unitsLayerNum;
 
         playerPrefab = startPlayerPrefab;
 

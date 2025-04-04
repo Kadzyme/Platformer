@@ -31,7 +31,7 @@ public class GroundSensor : MonoBehaviour
     }
 
     private bool CanCountCollider(Collider2D collision)
-        => !collision.isTrigger;
+        => !collision.isTrigger && ((1 << collision.gameObject.layer) & Global.groundLayer) != 0;
 
     private void Update()
     {
