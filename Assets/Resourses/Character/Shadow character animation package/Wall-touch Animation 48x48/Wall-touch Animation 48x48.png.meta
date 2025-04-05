@@ -176,6 +176,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -610,7 +623,26 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Wall-touch Animation 48x48_0: 6486437090235140865
+      Wall-touch Animation 48x48_1: -1598408603965228845
+      Wall-touch Animation 48x48_10: 2906349386863895082
+      Wall-touch Animation 48x48_11: 1726457144437336968
+      Wall-touch Animation 48x48_12: -6904297935173661025
+      Wall-touch Animation 48x48_13: -4332647447690432464
+      Wall-touch Animation 48x48_14: 3171532185400509255
+      Wall-touch Animation 48x48_15: -7966429728142859587
+      Wall-touch Animation 48x48_16: 4432377213304837354
+      Wall-touch Animation 48x48_17: -8863729432403845645
+      Wall-touch Animation 48x48_18: 8676753635722201215
+      Wall-touch Animation 48x48_2: 6381413435390167741
+      Wall-touch Animation 48x48_3: -7696470838804524019
+      Wall-touch Animation 48x48_4: -4642325954054400811
+      Wall-touch Animation 48x48_5: -3295489863926185467
+      Wall-touch Animation 48x48_6: 6996440125832749188
+      Wall-touch Animation 48x48_7: 8877959900816718160
+      Wall-touch Animation 48x48_8: -6004353607696971260
+      Wall-touch Animation 48x48_9: -8937915084282326182
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

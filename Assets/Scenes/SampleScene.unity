@@ -42,7 +42,8 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
+  serializedVersion: 13
+  m_BakeOnSceneLoad: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -4499,7 +4500,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 817405148630957363, guid: 4486d748d69d24d4584bfedb8a9e440f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 96.07
+      value: 96.09
       objectReference: {fileID: 0}
     - target: {fileID: 817405148630957363, guid: 4486d748d69d24d4584bfedb8a9e440f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4537,12 +4538,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2400809764153464565, guid: 4486d748d69d24d4584bfedb8a9e440f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6971885422904898602, guid: 4486d748d69d24d4584bfedb8a9e440f, type: 3}
       propertyPath: m_Name
       value: Skeleton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2400809764153464565, guid: 4486d748d69d24d4584bfedb8a9e440f, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4486d748d69d24d4584bfedb8a9e440f, type: 3}

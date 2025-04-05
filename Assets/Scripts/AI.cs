@@ -17,8 +17,6 @@ public class AI : MonoBehaviour
     [SerializeField] private GroundSensor wallSensor;
     [SerializeField] private GroundSensor floorSensor;
 
-    [SerializeField] private Collider2D hitCollider;
-
     private AIState currentState = AIState.idle;
     private Rigidbody2D rb;
     private Animator animator;
@@ -28,9 +26,14 @@ public class AI : MonoBehaviour
 
     public void TryKill()
     {
-        if (IsTargetInAttackZone())
+        var hittedColliders = CheckTargetsInAttackZone();
+
+        if (hittedColliders.Count > 0)
         {
-            Destroy(currentTarget.gameObject);
+            foreach (var collider in hittedColliders)
+            {
+                Destroy(collider.gameObject);
+            }
             currentState = AIState.idle;
             animator.SetBool("isAttacking", false);
         }
@@ -101,13 +104,12 @@ public class AI : MonoBehaviour
             if (currentChaseLength > maxChaseLength)
             {
                 currentState = AIState.idle;
-                currentTarget = null;
                 currentChaseLength = 0;
                 return;
             }
         }
 
-        if (!IsTargetInAttackZone())
+        if (CheckTargetsInAttackZone().Count == 0)
         {
             TryMove(transform.position.x < currentTarget.position.x);
             animator.SetBool("isAttacking", false);
@@ -116,34 +118,24 @@ public class AI : MonoBehaviour
             animator.SetBool("isAttacking", true);
     }
 
-    private bool IsTargetInAttackZone()
+    private List<Collider2D> CheckTargetsInAttackZone()
     {
+        List<Collider2D> colliders = new();
+
         ContactFilter2D filter = new();
         filter.SetLayerMask(Global.unitsLayer);
         filter.useTriggers = true;
 
         List<Collider2D> hittedColliders = new();
-        try
-        {
-            hitCollider.Overlap(filter, hittedColliders);
-        }
-        catch 
-        {
-            Debug.Log("Как же я заебался с этими нуллрефами...");
-        }
-
-        if (hittedColliders.Count == 0)
-        {
-            return false;
-        }
+        GetComponent<PolygonCollider2D>().Overlap(filter, hittedColliders);
 
         foreach (Collider2D col in hittedColliders)
         {
             if (col.CompareTag("Player"))
-                return true;
+                colliders.Add(col);
         }
 
-        return false;
+        return colliders;
     }
 
     private void TryMove(bool isRightDirection)
