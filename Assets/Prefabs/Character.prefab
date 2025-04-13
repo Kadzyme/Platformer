@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9151695421879363127}
   - component: {fileID: 3604038023118596007}
   - component: {fileID: 6474842441685030519}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GroundSensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4439371904145904668}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sensors
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 5470716892138595206}
   - component: {fileID: 8906898284340502760}
   - component: {fileID: 1511493305073798253}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BottomSlideSensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 2087178041261394566}
   - component: {fileID: 2346830382198650322}
   - component: {fileID: 5400784315905668826}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TopSlideSensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -320,7 +320,7 @@ GameObject:
   - component: {fileID: 6032591570371105132}
   - component: {fileID: 3246017162436450010}
   - component: {fileID: 3342581256705304672}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: NotClimbingSensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -411,7 +411,7 @@ GameObject:
   - component: {fileID: 2124640575849116014}
   - component: {fileID: 7470994421524177443}
   - component: {fileID: 1816592485474882100}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ClimbingSensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -505,6 +505,7 @@ GameObject:
   - component: {fileID: 141614461743335474}
   - component: {fileID: 2611996853477841616}
   - component: {fileID: 2620777466049152793}
+  - component: {fileID: 2059343719093586255}
   m_Layer: 6
   m_Name: Character
   m_TagString: Player
@@ -689,3 +690,16 @@ CapsuleCollider2D:
   m_Offset: {x: 0.0050000027, y: 0}
   m_Size: {x: 0.17, y: 0.34}
   m_Direction: 0
+--- !u!114 &2059343719093586255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6904479723537614143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c26e0daeac6882447a4312b7c403911f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particles: {fileID: 6545918057214004825, guid: 0cc5158848f0c1b42b7885d829264419, type: 3}

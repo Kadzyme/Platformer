@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9166354626635129421}
   - component: {fileID: 7636406505146137167}
   - component: {fileID: 2279163466688619691}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WallSensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 3998072310430075757}
   - component: {fileID: 4325348479494904969}
   - component: {fileID: 6140119295395509727}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FloorSensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
