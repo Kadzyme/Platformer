@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -7,13 +8,26 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GroundSensor groundSensor;
     [SerializeField] private GroundSensor topSlideSensor;
     [SerializeField] private GroundSensor bottomSlideSensor;
+    [SerializeField] private GroundSensor rightWallSensor;
 
     [SerializeField] private GroundSensor climbingSensor;
     [SerializeField] private GroundSensor notClimbingSensor;
 
+    [SerializeField] private GameObject dashParticles;
+    private Particles currentDashParticles;
+
     [SerializeField] private float jumpForce;
     [SerializeField] private float moveSpeed;
     [SerializeField] private bool isNormalXPositive = true;
+
+    [SerializeField] private float dashForce = 40;
+    [SerializeField] private float dashTime = 0.07f;
+
+    private float currentDashCooldown = 0.5f;
+    private float currentDashingTime = 0f;
+    private bool isDashing = false;
+    private Vector2 currentDashDirection = Vector2.zero;
+    private bool canUseDash = true;
 
     private float normalX;
     private bool isGrounded;
@@ -48,17 +62,50 @@ public class PlayerController : MonoBehaviour
     {
         CheckIsGrounded();
 
+        if (isGrounded)
+            canUseDash = true;
+
         if (isClimbing)
         {
             rb.linearVelocity = Vector2.zero;
+
+            if (isDashing)
+            {
+                isDashing = false;
+                currentDashParticles.Stop();
+                animator.SetBool("isDashing", isDashing);
+            }
+
             return;
         }
 
         TryClimb();
 
+        if (isDashing)
+        {
+            currentDashingTime -= Time.deltaTime;
+
+            if (currentDashingTime > 0)
+                SetDashVelocity();
+            else
+            {
+                isDashing = false;
+                currentDashParticles.Stop();
+            }
+
+            animator.SetBool("isDashing", isDashing);
+
+            return;
+        }
+
+        TryDash();
+
         TryPush();
 
         TrySlide();
+
+        if (isSliding)
+            canUseDash = true;
 
         if (Input.GetKeyDown(KeyCode.Space))
             TryJump();
@@ -72,6 +119,39 @@ public class PlayerController : MonoBehaviour
 
         animator.SetBool("isGrounded", isGrounded);
     }
+
+    private void TryDash()
+    {
+        currentDashCooldown -= Time.deltaTime;
+
+        if (!Input.GetKeyDown(KeyCode.E) || currentDashCooldown > 0 || !canUseDash)
+            return;
+
+        Vector2 dashDirection = Vector2.right;
+
+        if (Input.GetAxisRaw("Horizontal") != 0)
+            dashDirection = new Vector2(Input.GetAxisRaw("Horizontal"), 0).normalized;
+        else
+            dashDirection *= Mathf.Sign(normalX) * Mathf.Sign(transform.localScale.x) * (-1);
+
+        const float dashCooldown = 0.5f;
+        currentDashCooldown = dashCooldown;
+
+        currentDashingTime = dashTime;
+
+        isDashing = true;
+
+        canUseDash = false;
+
+        currentDashDirection = dashDirection;
+
+        var newObj = Instantiate(dashParticles, transform);
+        currentDashParticles = newObj.GetComponent<Particles>();
+        Destroy(newObj, 5f);
+    }
+
+    private void SetDashVelocity()
+        => rb.linearVelocity = currentDashDirection * dashForce;
 
     private void TryClimb()
     {
@@ -108,7 +188,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        isSliding = topSlideSensor.State() && bottomSlideSensor.State();
+        isSliding = topSlideSensor.State() && bottomSlideSensor.State() && rightWallSensor.State();
 
         if (isSliding)
         {
@@ -154,7 +234,7 @@ public class PlayerController : MonoBehaviour
     {
         float inputX = Input.GetAxis("Horizontal");
 
-        if (!isGrounded && inputX != 0 && topSlideSensor.State() && bottomSlideSensor.State())
+        if (!isGrounded && inputX != 0 && (topSlideSensor.State() && bottomSlideSensor.State() || rightWallSensor.State()))
         {
             return;
         }
