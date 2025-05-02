@@ -98,9 +98,9 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        TryDash();
-
         TryPush();
+
+        TryDash();
 
         TrySlide();
 
@@ -133,6 +133,9 @@ public class PlayerController : MonoBehaviour
             dashDirection = new Vector2(Input.GetAxisRaw("Horizontal"), 0).normalized;
         else
             dashDirection *= Mathf.Sign(normalX) * Mathf.Sign(transform.localScale.x) * (-1);
+
+        if (isSliding)
+            dashDirection.x *= -1;
 
         const float dashCooldown = 0.5f;
         currentDashCooldown = dashCooldown;
@@ -176,6 +179,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        canUseDash = false;
         animator.SetBool("isPushing", true);
     }
 

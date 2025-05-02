@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class Global : MonoBehaviour
 {
     public static UnityEvent OnReplaceEvent = new();
+    public static UnityEvent OnGameContinue = new();
     public static List<GameObject> objectsToRevive = new();
 
     private static Vector2 checkpointPos = Vector2.zero;
@@ -20,6 +22,8 @@ public class Global : MonoBehaviour
 
     private static Transform playerPrefab;
     [SerializeField] private Transform startPlayerPrefab;
+
+    [SerializeField] private Menu menu;
 
     void Awake()
     {
@@ -53,6 +57,17 @@ public class Global : MonoBehaviour
     {
         if (currentPlayer == null)
             CreateNewHero();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (menu.isActive)
+                menu.ContinueGame();
+            else
+                menu.StopGame();
+        }
     }
 
 
