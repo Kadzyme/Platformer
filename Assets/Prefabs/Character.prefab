@@ -598,6 +598,7 @@ GameObject:
   - component: {fileID: 2611996853477841616}
   - component: {fileID: 2620777466049152793}
   - component: {fileID: 2059343719093586255}
+  - component: {fileID: -8853551183359369396}
   m_Layer: 6
   m_Name: Character
   m_TagString: Player
@@ -713,7 +714,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 1.3
   m_Material: {fileID: 6200000, guid: a1261ef8e59df7343ba9f2abb59697d6, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -737,6 +738,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ecda4cc8328a274cb3ed366e76e0b47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveAction: {fileID: 4713586166054413709, guid: 444b414073865f346877dd2232729339, type: 3}
+  dashAction: {fileID: 8357394014269862279, guid: 444b414073865f346877dd2232729339, type: 3}
+  jumpAction: {fileID: -5987481966512356455, guid: 444b414073865f346877dd2232729339, type: 3}
   groundSensor: {fileID: 6474842441685030519}
   topSlideSensor: {fileID: 5400784315905668826}
   bottomSlideSensor: {fileID: 1511493305073798253}
@@ -744,7 +748,7 @@ MonoBehaviour:
   climbingSensor: {fileID: 1816592485474882100}
   notClimbingSensor: {fileID: 3342581256705304672}
   dashParticles: {fileID: 6545918057214004825, guid: 827eca821a5a9c94795dc41c111b1942, type: 3}
-  jumpForce: 7
+  jumpForce: 8
   moveSpeed: 6
   isNormalXPositive: 0
   dashForce: 35
@@ -799,3 +803,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particles: {fileID: 6545918057214004825, guid: 0cc5158848f0c1b42b7885d829264419, type: 3}
+--- !u!114 &-8853551183359369396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6904479723537614143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 444b414073865f346877dd2232729339, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: Keyboard
+  m_DefaultActionMap: Interaction
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}

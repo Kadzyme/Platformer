@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Collider2D))]
 public abstract class InteractibleObject : MonoBehaviour
@@ -19,7 +20,7 @@ public abstract class InteractibleObject : MonoBehaviour
 
     private void Update()
     {
-        if (isReadyForInteracting && Input.GetKeyDown(KeyCode.E))
+        if (isReadyForInteracting && Global.interactAction.action.WasPressedThisFrame())
             Interact();
     }
 

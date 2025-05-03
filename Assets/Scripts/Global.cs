@@ -2,12 +2,16 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class Global : MonoBehaviour
 {
     public static UnityEvent OnReplaceEvent = new();
     public static UnityEvent OnGameContinue = new();
     public static List<GameObject> objectsToRevive = new();
+
+    public static InputActionReference interactAction;
+    [SerializeField] private InputActionReference startInteractAction;
 
     private static Vector2 checkpointPos = Vector2.zero;
     [SerializeField] private Transform startCheckpointPos;
@@ -33,6 +37,9 @@ public class Global : MonoBehaviour
         unitsLayer = 1 << unitsLayerNum;
 
         playerPrefab = startPlayerPrefab;
+
+        interactAction = startInteractAction;
+        interactAction.action.Enable();
 
         CreateNewHero();
 

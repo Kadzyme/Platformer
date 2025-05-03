@@ -1,25 +1,33 @@
 using System.Collections;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
+    [Header("Input")]
+    [SerializeField] private InputActionReference moveAction;
+    [SerializeField] private InputActionReference dashAction;
+    [SerializeField] private InputActionReference jumpAction;
+
+    [Header("Sensors")]
     [SerializeField] private GroundSensor groundSensor;
     [SerializeField] private GroundSensor topSlideSensor;
     [SerializeField] private GroundSensor bottomSlideSensor;
     [SerializeField] private GroundSensor rightWallSensor;
-
     [SerializeField] private GroundSensor climbingSensor;
     [SerializeField] private GroundSensor notClimbingSensor;
 
+    [Header("Effects")]
     [SerializeField] private GameObject dashParticles;
     private Particles currentDashParticles;
 
+    [Header("Movement Settings")]
     [SerializeField] private float jumpForce;
     [SerializeField] private float moveSpeed;
     [SerializeField] private bool isNormalXPositive = true;
 
+    [Header("Dash Settings")]
     [SerializeField] private float dashForce = 40;
     [SerializeField] private float dashTime = 0.07f;
 
@@ -40,8 +48,11 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         GetComponents();
-
         SetStartAmountsForVariables();
+
+        moveAction.action.Enable();
+        dashAction.action.Enable();
+        jumpAction.action.Enable();
     }
 
     private void GetComponents()
@@ -53,7 +64,6 @@ public class PlayerController : MonoBehaviour
     private void SetStartAmountsForVariables()
     {
         normalX = transform.localScale.x;
-
         if (!isNormalXPositive)
             normalX *= -1;
     }
@@ -68,14 +78,7 @@ public class PlayerController : MonoBehaviour
         if (isClimbing)
         {
             rb.linearVelocity = Vector2.zero;
-
-            if (isDashing)
-            {
-                isDashing = false;
-                currentDashParticles.Stop();
-                animator.SetBool("isDashing", isDashing);
-            }
-
+            StopDashIfIsDashing();
             return;
         }
 
@@ -84,39 +87,31 @@ public class PlayerController : MonoBehaviour
         if (isDashing)
         {
             currentDashingTime -= Time.deltaTime;
-
             if (currentDashingTime > 0)
                 SetDashVelocity();
             else
-            {
-                isDashing = false;
-                currentDashParticles.Stop();
-            }
+                StopDashIfIsDashing();
 
             animator.SetBool("isDashing", isDashing);
-
             return;
         }
 
         TryPush();
-
         TryDash();
-
         TrySlide();
 
         if (isSliding)
             canUseDash = true;
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (jumpAction.action.WasPressedThisFrame())
             TryJump();
-        
+
         TryWalk();
     }
 
     private void CheckIsGrounded()
     {
         isGrounded = groundSensor.State();
-
         animator.SetBool("isGrounded", isGrounded);
     }
 
@@ -124,37 +119,40 @@ public class PlayerController : MonoBehaviour
     {
         currentDashCooldown -= Time.deltaTime;
 
-        if (!Input.GetKeyDown(KeyCode.E) || currentDashCooldown > 0 || !canUseDash)
-            return;
+        if (dashAction.action.triggered && currentDashCooldown <= 0 && canUseDash)
+        {
+            Vector2 moveInput = moveAction.action.ReadValue<Vector2>();
+            Vector2 dashDirection = moveInput.x != 0 ? new Vector2(moveInput.x, 0).normalized : Vector2.right * Mathf.Sign(normalX) * Mathf.Sign(transform.localScale.x) * (-1);
 
-        Vector2 dashDirection = Vector2.right;
+            if (isSliding)
+                dashDirection.x *= -1;
 
-        if (Input.GetAxisRaw("Horizontal") != 0)
-            dashDirection = new Vector2(Input.GetAxisRaw("Horizontal"), 0).normalized;
-        else
-            dashDirection *= Mathf.Sign(normalX) * Mathf.Sign(transform.localScale.x) * (-1);
+            currentDashCooldown = 0.5f;
+            currentDashingTime = dashTime;
+            isDashing = true;
+            canUseDash = false;
+            currentDashDirection = dashDirection;
 
-        if (isSliding)
-            dashDirection.x *= -1;
+            var newObj = Instantiate(dashParticles, transform);
+            currentDashParticles = newObj.GetComponent<Particles>();
+            Destroy(newObj, 5f);
+        }
+    }
 
-        const float dashCooldown = 0.5f;
-        currentDashCooldown = dashCooldown;
-
-        currentDashingTime = dashTime;
-
-        isDashing = true;
-
-        canUseDash = false;
-
-        currentDashDirection = dashDirection;
-
-        var newObj = Instantiate(dashParticles, transform);
-        currentDashParticles = newObj.GetComponent<Particles>();
-        Destroy(newObj, 5f);
+    private void StopDashIfIsDashing()
+    {
+        if (isDashing)
+        {
+            isDashing = false;
+            currentDashParticles?.Stop();
+            animator.SetBool("isDashing", isDashing);
+        }
     }
 
     private void SetDashVelocity()
-        => rb.linearVelocity = currentDashDirection * dashForce;
+    {
+        rb.linearVelocity = currentDashDirection * dashForce;
+    }
 
     private void TryClimb()
     {
@@ -165,9 +163,7 @@ public class PlayerController : MonoBehaviour
         climbingSensor.Disable(0.2f);
 
         isClimbing = true;
-
         animator.SetBool("isClimbing", true);
-
         StartCoroutine(ResetClimbFlag());
     }
 
@@ -188,16 +184,13 @@ public class PlayerController : MonoBehaviour
         if (isGrounded)
         {
             isSliding = false;
-            animator.SetBool("isSliding", isSliding);
+            animator.SetBool("isSliding", false);
             return;
         }
 
         isSliding = topSlideSensor.State() && bottomSlideSensor.State() && rightWallSensor.State();
-
         if (isSliding)
-        {
-            rb.linearVelocityY = -0.1f;
-        }
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, -0.1f);
 
         animator.SetBool("isSliding", isSliding);
     }
@@ -210,9 +203,8 @@ public class PlayerController : MonoBehaviour
         float characterHeight = GetComponent<Collider2D>().bounds.size.y / 2;
         Vector3 correctedPosition = newPos.point + new Vector2(0, characterHeight);
 
-        StartCoroutine(ClimbLerp(correctedPosition, 0.3f));
-
-        yield return new WaitForSeconds(0.6f);
+        yield return ClimbLerp(correctedPosition, 0.3f);
+        yield return new WaitForSeconds(0.3f);
 
         isClimbing = false;
         animator.SetBool("isClimbing", false);
@@ -236,7 +228,8 @@ public class PlayerController : MonoBehaviour
 
     private void TryWalk()
     {
-        float inputX = Input.GetAxis("Horizontal");
+        Vector2 moveInput = moveAction.action.ReadValue<Vector2>();
+        float inputX = moveInput.x;
 
         if (!isGrounded && inputX != 0 && (topSlideSensor.State() && bottomSlideSensor.State() || rightWallSensor.State()))
         {
@@ -246,18 +239,15 @@ public class PlayerController : MonoBehaviour
         if (inputX != 0)
         {
             Vector3 newLocalScale = transform.localScale;
-
-            if (inputX > 0)
-                newLocalScale.x = -normalX;
-            else
-                newLocalScale.x = normalX;
-
+            newLocalScale.x = inputX > 0 ? -normalX : normalX;
             transform.localScale = newLocalScale;
 
             animator.SetFloat("currentSpeed", moveSpeed);
         }
         else
+        {
             animator.SetFloat("currentSpeed", 0);
+        }
 
         rb.linearVelocity = new Vector2(inputX * moveSpeed, rb.linearVelocity.y);
     }
@@ -270,7 +260,6 @@ public class PlayerController : MonoBehaviour
         if (isSliding)
         {
             float jumpDirection = Mathf.Sign(-transform.localScale.x);
-
             rb.linearVelocity = new Vector2(jumpDirection * jumpForce, jumpForce);
 
             topSlideSensor.Disable(0.2f);

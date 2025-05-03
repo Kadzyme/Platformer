@@ -1,5 +1,5 @@
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class FollowCam : MonoBehaviour
 {
@@ -10,14 +10,19 @@ public class FollowCam : MonoBehaviour
     [SerializeField] private float changingY;
     [SerializeField] private float changingX;
 
+    [SerializeField] private InputActionReference lookInputAction;
+
     private float currentTime;
     private bool isOldPlayerXPositive;
 
-    private float normalZ;
-
-    private void Start()
+    private void OnEnable()
     {
-        normalZ = transform.position.z;
+        lookInputAction.action.Enable();
+    }
+
+    private void OnDisable()
+    {
+        lookInputAction.action.Disable();
     }
 
     private void Update()
@@ -27,8 +32,8 @@ public class FollowCam : MonoBehaviour
 
         float currentAdditionalY = additionalY;
 
-        float verticalInput = Input.GetAxis("Vertical");
-        currentAdditionalY += verticalInput * changingY;
+        Vector2 input = lookInputAction.action.ReadValue<Vector2>();
+        currentAdditionalY += input.y * changingY;
 
         Vector2 currentPos = transform.position;
         Vector2 playerCurrentPos = Global.currentPlayer.position;
@@ -57,12 +62,12 @@ public class FollowCam : MonoBehaviour
         playerCurrentPos.x += currentAdditionalX;
         playerCurrentPos.y += currentAdditionalY;
 
-        if (Mathf.Abs(currentPos.x - playerCurrentPos.x) > maxDistanceX 
+        if (Mathf.Abs(currentPos.x - playerCurrentPos.x) > maxDistanceX
             || Mathf.Abs(currentPos.y - playerCurrentPos.y) > maxDistanceY)
         {
-            Vector2 temp = 
+            Vector2 temp =
                 Vector2.Lerp(transform.position, playerCurrentPos, Time.deltaTime * Vector2.Distance(currentPos, playerCurrentPos));
-            transform.position = new Vector3(temp.x, temp.y, normalZ);
+            transform.position = new Vector3(temp.x, temp.y, transform.position.z);
         }
     }
 }
