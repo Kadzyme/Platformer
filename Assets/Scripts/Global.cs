@@ -29,6 +29,8 @@ public class Global : MonoBehaviour
 
     [SerializeField] private Menu menu;
 
+    private float currentCooldownForNewPlayer = 3f;
+
     void Awake()
     {
         Cursor.visible = false;
@@ -63,7 +65,15 @@ public class Global : MonoBehaviour
     private void FixedUpdate()
     {
         if (currentPlayer == null)
-            CreateNewHero();
+        {
+            currentCooldownForNewPlayer -= Time.fixedDeltaTime;
+
+            if (currentCooldownForNewPlayer < 0)
+            {
+                currentCooldownForNewPlayer = 3f;
+                CreateNewHero();
+            }
+        }
     }
 
     private void Update()
