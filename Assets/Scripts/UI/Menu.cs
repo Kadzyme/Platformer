@@ -1,13 +1,23 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
+    [SerializeField] private bool hideOnStart = true;
+
     [HideInInspector] public bool isActive;
 
     private void Start()
     {
         Global.OnGameContinue.AddListener(TurnOff);
-        ContinueGame();
+
+        if (hideOnStart)
+            TurnOff();
+    }
+
+    public void OpenScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
 
     public void StopGame()

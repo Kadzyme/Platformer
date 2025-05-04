@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -31,7 +30,7 @@ public class Global : MonoBehaviour
 
     private float currentCooldownForNewPlayer = 3f;
 
-    void Awake()
+    private void Awake()
     {
         Cursor.visible = false;
 
@@ -97,9 +96,24 @@ public class Global : MonoBehaviour
 
     public static void ReviveObjects()
     {
+        List<GameObject> objectsToRemoveFromList = new();
+
         foreach (GameObject objectToRevive in objectsToRevive)
         {
-            objectToRevive?.SetActive(true);
+            if (objectToRevive != null)
+                objectToRevive?.SetActive(true);
+            else
+                objectsToRemoveFromList.Add(objectToRevive);
         }
+
+        foreach (GameObject objectToRemove in objectsToRemoveFromList)
+        {
+            objectsToRevive.Remove(objectToRemove);
+        }
+    }
+
+    private void OnDisable()
+    {
+        gameObject.GetComponent<Global>().enabled = true;
     }
 }

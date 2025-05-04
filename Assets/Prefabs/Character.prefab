@@ -714,8 +714,8 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1.3
-  m_Material: {fileID: 6200000, guid: a1261ef8e59df7343ba9f2abb59697d6, type: 2}
+  m_GravityScale: 1.9
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -748,7 +748,7 @@ MonoBehaviour:
   climbingSensor: {fileID: 1816592485474882100}
   notClimbingSensor: {fileID: 3342581256705304672}
   dashParticles: {fileID: 6545918057214004825, guid: 827eca821a5a9c94795dc41c111b1942, type: 3}
-  jumpForce: 8
+  jumpForce: 10
   moveSpeed: 6
   isNormalXPositive: 0
   dashForce: 35
