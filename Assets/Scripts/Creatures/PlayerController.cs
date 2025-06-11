@@ -75,15 +75,6 @@ public class PlayerController : MonoBehaviour
         if (isGrounded)
             canUseDash = true;
 
-        if (isClimbing)
-        {
-            rb.linearVelocity = Vector2.zero;
-            StopDashIfIsDashing();
-            return;
-        }
-
-        TryClimb();
-
         if (isDashing)
         {
             currentDashingTime -= Time.deltaTime;
@@ -93,6 +84,14 @@ public class PlayerController : MonoBehaviour
                 StopDashIfIsDashing();
 
             animator.SetBool("isDashing", isDashing);
+            return;
+        }
+
+        TryClimb();
+
+        if (isClimbing)
+        {
+            rb.linearVelocity = Vector2.zero;
             return;
         }
 
@@ -139,6 +138,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void SetDashVelocity()
+        => rb.linearVelocity = currentDashDirection * dashForce;
+
     private void StopDashIfIsDashing()
     {
         if (isDashing)
@@ -147,11 +149,6 @@ public class PlayerController : MonoBehaviour
             currentDashParticles?.Stop();
             animator.SetBool("isDashing", isDashing);
         }
-    }
-
-    private void SetDashVelocity()
-    {
-        rb.linearVelocity = currentDashDirection * dashForce;
     }
 
     private void TryClimb()

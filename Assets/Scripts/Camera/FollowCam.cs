@@ -3,17 +3,17 @@ using UnityEngine.InputSystem;
 
 public class FollowCam : MonoBehaviour
 {
-    [SerializeField] private float maxDistanceX;
-    [SerializeField] private float maxDistanceY;
-    [SerializeField] private float additionalY;
-    [SerializeField] private float additionalX;
-    [SerializeField] private float changingY;
-    [SerializeField] private float changingX;
-
+    [SerializeField] private float followSpeed = 5f;
+    [SerializeField] private Vector2 followOffset;
+    [SerializeField] private Vector2 followThreshold = new(1f, 1f);
+    [SerializeField] private float lookOffsetYMultiplier = 1f;
+    [SerializeField] private float verticalLookSmoothSpeed = 3f;
     [SerializeField] private InputActionReference lookInputAction;
 
-    private float currentTime;
-    private bool isOldPlayerXPositive;
+    private Transform target;
+
+    private float targetOffsetY = 0f;
+    private float currentOffsetY = 0f;
 
     private void OnEnable()
     {
@@ -25,49 +25,32 @@ public class FollowCam : MonoBehaviour
         lookInputAction.action.Disable();
     }
 
-    private void Update()
+    private void LateUpdate()
     {
-        if (Global.currentPlayer == null)
+        target = Global.currentPlayer;
+
+        if (target == null)
             return;
 
-        float currentAdditionalY = additionalY;
+        Vector2 lookInput = lookInputAction.action.ReadValue<Vector2>();
 
-        Vector2 input = lookInputAction.action.ReadValue<Vector2>();
-        currentAdditionalY += input.y * changingY;
+        targetOffsetY = lookInput.y * lookOffsetYMultiplier;
 
-        Vector2 currentPos = transform.position;
-        Vector2 playerCurrentPos = Global.currentPlayer.position;
+        currentOffsetY = Mathf.Lerp(currentOffsetY, targetOffsetY, verticalLookSmoothSpeed * Time.deltaTime);
 
-        float currentAdditionalX = additionalX;
-        Transform player = Global.currentPlayer;
+        float flipX = target.localScale.x > 0 ? -1 : 1;
+        Vector2 dynamicOffset = followOffset;
+        dynamicOffset.x *= flipX;
+        dynamicOffset.y += currentOffsetY;
 
-        bool isCurrentPlayerXPositive = Global.currentPlayer.localScale.x > 0;
+        Vector2 desiredPosition = (Vector2)target.position + dynamicOffset;
+        Vector2 currentPosition = transform.position;
+        Vector2 delta = desiredPosition - currentPosition;
 
-        if (isOldPlayerXPositive == isCurrentPlayerXPositive)
+        if (Mathf.Abs(delta.x) > followThreshold.x || Mathf.Abs(delta.y) > followThreshold.y)
         {
-            currentTime += Time.deltaTime;
-
-            if (currentTime > 3f)
-                currentAdditionalX += changingX;
-        }
-        else
-        {
-            isOldPlayerXPositive = isCurrentPlayerXPositive;
-            currentTime = 0f;
-        }
-
-        if (player.localScale.x > 0)
-            currentAdditionalX *= -1;
-
-        playerCurrentPos.x += currentAdditionalX;
-        playerCurrentPos.y += currentAdditionalY;
-
-        if (Mathf.Abs(currentPos.x - playerCurrentPos.x) > maxDistanceX
-            || Mathf.Abs(currentPos.y - playerCurrentPos.y) > maxDistanceY)
-        {
-            Vector2 temp =
-                Vector2.Lerp(transform.position, playerCurrentPos, Time.deltaTime * Vector2.Distance(currentPos, playerCurrentPos));
-            transform.position = new Vector3(temp.x, temp.y, transform.position.z);
+            Vector2 newPos = Vector2.Lerp(currentPosition, desiredPosition, followSpeed * Time.deltaTime);
+            transform.position = new Vector3(newPos.x, newPos.y, transform.position.z);
         }
     }
 }

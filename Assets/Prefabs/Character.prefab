@@ -412,6 +412,7 @@ GameObject:
   - component: {fileID: 6032591570371105132}
   - component: {fileID: 3246017162436450010}
   - component: {fileID: 3342581256705304672}
+  - component: {fileID: 4675860045949510805}
   m_Layer: 7
   m_Name: NotClimbingSensor
   m_TagString: Untagged
@@ -441,7 +442,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4590604259646708990}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -492,6 +493,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e072ea13ded5d7479c9915c15d03397, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!60 &4675860045949510805
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4590604259646708990}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.011879443, y: 0.25875416}
+      - {x: -0.01114583, y: 0.011473246}
+      - {x: -0.248649, y: 0.010413233}
+      - {x: -0.25028938, y: -0.009937957}
+      - {x: 0.09523308, y: -0.0061136945}
+      - {x: 0.09111942, y: 0.26338804}
+  m_UseDelaunayMesh: 0
 --- !u!1 &6034626542572902417
 GameObject:
   m_ObjectHideFlags: 0
@@ -722,7 +776,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
@@ -827,7 +881,27 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_ActionEvents: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9874b004-24d2-4947-b65a-70fbf4b88696
+    m_ActionName: 'Interaction/Interact[/Keyboard/f]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b7e0dff0-d496-440c-a8e8-73e969626cb5
+    m_ActionName: 'Interaction/Move[/Keyboard/a,/Keyboard/d]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3ad49c9c-cd7f-49c9-9186-52ec3f98d700
+    m_ActionName: 'Interaction/Dash[/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e241d384-c232-4934-83b6-df9f9862703c
+    m_ActionName: 'Interaction/Jump[/Keyboard/space]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e8911d9c-02d7-480a-8270-f58c5538237b
+    m_ActionName: 'Interaction/Look[/Keyboard/w,/Keyboard/s]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: Interaction

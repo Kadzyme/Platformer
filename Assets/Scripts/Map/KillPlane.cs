@@ -1,6 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(Collider2D))]
 public class KillPlane : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
@@ -12,6 +13,10 @@ public class KillPlane : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.black;
+
+        if (GetComponent<BoxCollider2D>() == null)
+            return;
+
         var box = GetComponent<BoxCollider2D>().size;
         box *= transform.localScale;
         Vector2 center = transform.position;
